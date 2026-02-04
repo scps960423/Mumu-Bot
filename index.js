@@ -112,8 +112,8 @@ client.on('interactionCreate', async (interaction) => {
       );
       const row2 = new ActionRowBuilder().addComponents(
         new ButtonBuilder().setCustomId('join_wait').setLabel('⏳ 我先候補').setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder().setCustomId('leave_raid').setLabel('❌ 取消報名').setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder().setCustomId('clear_raid').setLabel('♻️ 重置名單').setStyle(ButtonStyle.Danger)
+        new ButtonBuilder().setCustomId('leave_raid').setLabel('❌ 取消報名').setStyle(ButtonStyle.Secondary)
+        // new ButtonBuilder().setCustomId('clear_raid').setLabel('♻️ 重置名單').setStyle(ButtonStyle.Danger)
       );
 
       const response = await interaction.reply({
@@ -217,19 +217,19 @@ client.on('interactionCreate', async (interaction) => {
       await interaction.followUp({ content: '暮暮幫你完成取消囉！', ephemeral: true });
     }
 
-    if (interaction.customId === 'clear_raid') {
-      raidData[msgId] = [];
-      const resetEmbed = EmbedBuilder.from(interaction.message.embeds[0])
-        .setFields(
-          { name: '📅 開團時間', value: interaction.message.embeds[0].fields[0].value, inline: false },
-          { name: '👥 正取人數', value: '`0 / 8`', inline: true },
-          { name: '⏳ 候補人數', value: '`0`', inline: true }
-        )
-        .setDescription('**【 正取名單 】**\n尚未有人報名...(´;ω;`)');
+    // if (interaction.customId === 'clear_raid') {
+    //   raidData[msgId] = [];
+    //   const resetEmbed = EmbedBuilder.from(interaction.message.embeds[0])
+    //     .setFields(
+    //       { name: '📅 開團時間', value: interaction.message.embeds[0].fields[0].value, inline: false },
+    //       { name: '👥 正取人數', value: '`0 / 8`', inline: true },
+    //       { name: '⏳ 候補人數', value: '`0`', inline: true }
+    //     )
+    //     .setDescription('**【 正取名單 】**\n尚未有人報名...(´;ω;`)');
 
-      await interaction.update({ embeds: [resetEmbed] });
-      await interaction.followUp({ content: '名單已清空，期待新的米列西安加入。', ephemeral: true });
-    }
+    //   await interaction.update({ embeds: [resetEmbed] });
+    //   await interaction.followUp({ content: '名單已清空，期待新的米列西安加入。', ephemeral: true });
+    // }
   }
 });
 

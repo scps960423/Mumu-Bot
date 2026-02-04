@@ -4,9 +4,6 @@ const {
   ButtonBuilder, ButtonStyle, REST, Routes, SlashCommandBuilder
 } = require('discord.js');
 
-// 引入工具
-//權限檢查
-const { hasAdminPermission } = require('./utils/auth');
 //報名表單內容
 const { renderRaidDescription } = require('./utils/renderer');
 
@@ -40,14 +37,7 @@ const commands = [
         { name: '⚔️ 打', value: '⚔️ [打]' },
         { name: '😎 學習', value: '😎 [學習]' },
         { name: '⏳ 候補', value: '⏳ [候補]' }
-      )),
-  new SlashCommandBuilder()
-    .setName('說話')
-    .setDescription('讓暮暮替妳傳話✨')
-    .addStringOption(option =>
-      option.setName('內容').setDescription('妳想說的話').setRequired(true))
-    .addChannelOption(option =>
-      option.setName('頻道').setDescription('指定頻道（選填）').setRequired(false)),
+      ))
 ].map(command => command.toJSON());
 
 // --- 2. 註冊設定 ---
@@ -156,22 +146,6 @@ client.on('interactionCreate', async (interaction) => {
       } catch (e) {
         await interaction.reply({ content: '代報成功，但無法自動更新訊息畫面。', ephemeral: true });
       }
-    }
-
-    if (interaction.commandName === '說話') {
-      // 檢查權限 (重複使用妳之前設定的 hasAdminPermission)
-      if (!hasAdminPermission(interaction.member)) {
-        return interaction.reply({ content: '喵嗚～這是我跟主人的小秘密，不能讓妳亂用喔！', ephemeral: true });
-      }
-
-      const content = interaction.options.getString('內容');
-      const channel = interaction.options.getChannel('頻道') || interaction.channel;
-
-      // 讓暮暮發出訊息
-      await channel.send(content);
-
-      // 回應發送者，設為隱藏訊息避免洗版
-      await interaction.reply({ content: `✅ 已成功在 ${channel} 代傳話囉！`, ephemeral: true });
     }
     return;
   }
